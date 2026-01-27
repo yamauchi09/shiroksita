@@ -4,38 +4,94 @@
   <meta charset="UTF-8">
   <title>Shiroksita 辞書</title>
   <style>
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: auto;
-      padding: 1em;
+    :root {
+      --bg: #f9fafb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --accent: #2563eb;
+      --border: #e5e7eb;
     }
+
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem 1rem;
+    }
+
+    main {
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+    }
+
     input {
       width: 100%;
-      padding: 0.5em;
-      font-size: 1em;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--border);
+      margin-bottom: 1.5rem;
     }
+
     .entry {
-      border-bottom: 1px solid #ccc;
-      padding: 0.5em 0;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 1rem;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
     }
+
     .word {
-      font-size: 1.2em;
-      font-weight: bold;
+      font-size: 1.4rem;
+      font-weight: 700;
     }
+
     .pos {
-      color: #666;
-      font-size: 0.9em;
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    .meaning {
+      margin-top: 0.5rem;
+      line-height: 1.5;
+    }
+
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
     }
   </style>
 </head>
 <body>
 
-<h1>Shiroksita 辞書</h1>
+<main>
+  <h1>Shroksita 辞書</h1>
+  <div class="subtitle">人工言語コロン語のオンライン辞書</div>
 
-<input id="search" placeholder="単語・日本語で検索">
+  <input id="search" placeholder="単語・日本語で検索">
 
-<div id="results"></div>
+  <div id="results"></div>
+
+  <footer>
+    © Shiroksita辞書 / GitHub Pages
+  </footer>
+</main>
 
 <script>
 fetch("../entries.json")
@@ -51,7 +107,9 @@ fetch("../entries.json")
           <div class="entry">
             <div class="word">${e.word}</div>
             <div class="pos">${e.pos}</div>
-            <div>${(e.meaning_hint?.ja || []).join("、")}</div>
+            <div class="meaning">
+              ${(e.meaning_hint?.ja || []).join("、")}
+            </div>
           </div>
         `;
       });
@@ -60,7 +118,7 @@ fetch("../entries.json")
     render(data);
 
     input.addEventListener("input", () => {
-      const q = input.value;
+      const q = input.value.trim();
       const filtered = data.filter(e =>
         e.word.includes(q) ||
         (e.meaning_hint?.ja || []).some(m => m.includes(q))
