@@ -1,0 +1,38 @@
+[
+  {
+    "entry_id": "KOL-0001",
+    "word": "shiroksita",
+    "language": "shiroksita",
+    "pos": "noun",
+
+    "meaning": {
+      "ja": ["シロクスィタ（この言語）"],
+      "en": ["shiroksita"]
+    },
+
+    "pronunciation": {
+      "ipa": "",
+      "roman": ""
+    },
+
+    "morphology": {
+      "root": "",
+      "suffixes": [""],
+      "notes": ""
+    },
+
+    "etymology": "",
+
+    "examples": [
+      {
+        "sentence": "",
+        "translation": {
+          "ja": "",
+          "en": ""
+        }
+      }
+    ],
+
+    "notes": ""
+  }
+]
