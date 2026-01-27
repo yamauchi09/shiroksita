@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Shiroksita 辞書</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 800px;
+      margin: auto;
+      padding: 1em;
+    }
+    input {
+      width: 100%;
+      padding: 0.5em;
+      font-size: 1em;
+    }
+    .entry {
+      border-bottom: 1px solid #ccc;
+      padding: 0.5em 0;
+    }
+    .word {
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+    .pos {
+      color: #666;
+      font-size: 0.9em;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Shiroksita 辞書</h1>
+
+<input id="search" placeholder="単語・日本語で検索">
+
+<div id="results"></div>
+
+<script>
+fetch("../entries.json")
+  .then(res => res.json())
+  .then(data => {
+    const input = document.getElementById("search");
+    const results = document.getElementById("results");
+
+    function render(list) {
+      results.innerHTML = "";
+      list.forEach(e => {
+        results.innerHTML += `
+          <div class="entry">
+            <div class="word">${e.word}</div>
+            <div class="pos">${e.pos}</div>
+            <div>${(e.meaning_hint?.ja || []).join("、")}</div>
+          </div>
+        `;
+      });
+    }
+
+    render(data);
+
+    input.addEventListener("input", () => {
+      const q = input.value;
+      const filtered = data.filter(e =>
+        e.word.includes(q) ||
+        (e.meaning_hint?.ja || []).some(m => m.includes(q))
+      );
+      render(filtered);
+    });
+  });
+</script>
+
+</body>
+</html>
